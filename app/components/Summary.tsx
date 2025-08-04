@@ -1,4 +1,4 @@
-import ScoreGauge from "~/components/ScoreGauge";
+import ScoreGauge from "~/components/ScoreGuage";
 import ScoreBadge from "~/components/ScoreBadge";
 
 const Category = ({ title, score }: { title: string, score: number }) => {
