@@ -1,6 +1,9 @@
 import type { Route } from "./+types/home";
 import Navbar from "~/components/Navbar";
 import ResumeCard from "~/components/ResumeCard";
+import ResumeAnalytics from "~/components/ResumeAnalytics";
+import ResumeComparison from "~/components/ResumeComparison";
+import JobRecommendations from "~/components/JobRecommendations";
 import {usePuterStore} from "~/lib/puter";
 import {Link, useNavigate} from "react-router";
 import {useEffect, useState} from "react";
@@ -58,11 +61,27 @@ export default function Home() {
       )}
 
       {!loadingResumes && resumes.length > 0 && (
-        <div className="resumes-section">
-          {resumes.map((resume) => (
-              <ResumeCard key={resume.id} resume={resume} />
-          ))}
-        </div>
+        <>
+          <ResumeAnalytics resumes={resumes} />
+          
+          <JobRecommendations resumes={resumes} />
+          
+          {resumes.length >= 2 && (
+            <ResumeComparison resumes={resumes} />
+          )}
+          
+          <div className="resumes-section">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-xl font-bold text-[var(--color-text-primary)]">Your Resumes</h2>
+              <Link to="/upload" className="primary-button py-2 px-4 text-sm font-medium hover:primary-gradient-hover transition-all duration-300">
+                Upload New Resume
+              </Link>
+            </div>
+            {resumes.map((resume) => (
+                <ResumeCard key={resume.id} resume={resume} />
+            ))}
+          </div>
+        </>
       )}
 
       {!loadingResumes && resumes?.length === 0 && (

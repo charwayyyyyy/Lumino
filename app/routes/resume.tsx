@@ -4,6 +4,7 @@ import {usePuterStore} from "~/lib/puter";
 import Summary from "~/components/Summary";
 import ATS from "~/components/ATS";
 import Details from "~/components/Details";
+import SkillSuggestions from "~/components/SkillSuggestions";
 
 export const meta = () => ([
     { title: 'Resumind | Review ' },
@@ -16,6 +17,7 @@ const Resume = () => {
     const [imageUrl, setImageUrl] = useState('');
     const [resumeUrl, setResumeUrl] = useState('');
     const [feedback, setFeedback] = useState<Feedback | null>(null);
+    const [resumeData, setResumeData] = useState<Resume | null>(null);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -29,6 +31,7 @@ const Resume = () => {
             if(!resume) return;
 
             const data = JSON.parse(resume);
+            setResumeData(data);
 
             const resumeBlob = await fs.read(data.resumePath);
             if(!resumeBlob) return;
@@ -73,10 +76,11 @@ const Resume = () => {
                 </section>
                 <section className="feedback-section">
                     <h2 className="text-4xl !text-black font-bold">Resume Review</h2>
-                    {feedback ? (
+                    {feedback && resumeData ? (
                         <div className="flex flex-col gap-8 animate-in fade-in duration-1000">
                             <Summary feedback={feedback} />
                             <ATS score={feedback.ATS.score || 0} suggestions={feedback.ATS.tips || []} />
+                            <SkillSuggestions resume={resumeData} />
                             <Details feedback={feedback} />
                         </div>
                     ) : (

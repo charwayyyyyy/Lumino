@@ -10,12 +10,14 @@ const ScoreBadge = ({ score }: { score: number }) => {
   return (
       <div
           className={cn(
-              "flex flex-row gap-1 items-center px-2 py-0.5 rounded-[96px]",
-              score > 69
-                  ? "bg-badge-green"
-                  : score > 39
-                      ? "bg-badge-yellow"
-                      : "bg-badge-red"
+              "flex flex-row gap-1.5 items-center px-3 py-1 rounded-full shadow-sm transition-all duration-200",
+              score > 79
+                  ? "bg-gradient-to-r from-green-100 to-green-50 border border-green-200"
+                  : score > 59
+                      ? "bg-gradient-to-r from-blue-100 to-blue-50 border border-blue-200"
+                      : score > 39
+                          ? "bg-gradient-to-r from-yellow-100 to-yellow-50 border border-yellow-200"
+                          : "bg-gradient-to-r from-red-100 to-red-50 border border-red-200"
           )}
       >
         <img
@@ -25,12 +27,14 @@ const ScoreBadge = ({ score }: { score: number }) => {
         />
         <p
             className={cn(
-                "text-sm font-medium",
-                score > 69
-                    ? "text-badge-green-text"
-                    : score > 39
-                        ? "text-badge-yellow-text"
-                        : "text-badge-red-text"
+                "text-sm font-semibold",
+                score > 79
+                    ? "text-green-700"
+                    : score > 59
+                        ? "text-blue-700"
+                        : score > 39
+                            ? "text-yellow-700"
+                            : "text-red-700"
             )}
         >
           {score}/100
@@ -47,8 +51,8 @@ const CategoryHeader = ({
   categoryScore: number;
 }) => {
   return (
-      <div className="flex flex-row gap-4 items-center py-2">
-        <p className="text-2xl font-semibold">{title}</p>
+      <div className="flex flex-row justify-between items-center py-3 px-1">
+        <p className="text-2xl font-bold bg-clip-text text-transparent primary-gradient">{title}</p>
         <ScoreBadge score={categoryScore} />
       </div>
   );
@@ -60,45 +64,55 @@ const CategoryContent = ({
   tips: { type: "good" | "improve"; tip: string; explanation: string }[];
 }) => {
   return (
-      <div className="flex flex-col gap-4 items-center w-full">
-        <div className="bg-gray-50 w-full rounded-lg px-5 py-4 grid grid-cols-2 gap-4">
+      <div className="flex flex-col gap-6 items-center w-full p-2">
+        <div className="bg-gradient-to-br from-gray-50 to-white w-full rounded-xl px-6 py-5 grid grid-cols-1 md:grid-cols-2 gap-4 shadow-sm border border-gray-100">
           {tips.map((tip, index) => (
-              <div className="flex flex-row gap-2 items-center" key={index}>
-                <img
-                    src={
-                      tip.type === "good" ? "/icons/check.svg" : "/icons/warning.svg"
-                    }
-                    alt="score"
-                    className="size-5"
-                />
-                <p className="text-xl text-gray-500 ">{tip.tip}</p>
-              </div>
-          ))}
-        </div>
-        <div className="flex flex-col gap-4 w-full">
-          {tips.map((tip, index) => (
-              <div
-                  key={index + tip.tip}
-                  className={cn(
-                      "flex flex-col gap-2 rounded-2xl p-4",
-                      tip.type === "good"
-                          ? "bg-green-50 border border-green-200 text-green-700"
-                          : "bg-yellow-50 border border-yellow-200 text-yellow-700"
-                  )}
-              >
-                <div className="flex flex-row gap-2 items-center">
+              <div className="flex flex-row gap-3 items-center" key={index}>
+                <div className={cn(
+                  "flex items-center justify-center rounded-full size-8",
+                  tip.type === "good" ? "bg-green-100" : "bg-yellow-100"
+                )}>
                   <img
                       src={
-                        tip.type === "good"
-                            ? "/icons/check.svg"
-                            : "/icons/warning.svg"
+                        tip.type === "good" ? "/icons/check.svg" : "/icons/warning.svg"
                       }
                       alt="score"
                       className="size-5"
                   />
-                  <p className="text-xl font-semibold">{tip.tip}</p>
                 </div>
-                <p>{tip.explanation}</p>
+                <p className="text-lg text-gray-700 font-medium">{tip.tip}</p>
+              </div>
+          ))}
+        </div>
+        <div className="flex flex-col gap-5 w-full">
+          {tips.map((tip, index) => (
+              <div
+                  key={index + tip.tip}
+                  className={cn(
+                      "flex flex-col gap-3 rounded-2xl p-5 shadow-sm transition-all duration-200 hover:shadow-md",
+                      tip.type === "good"
+                          ? "bg-gradient-to-br from-green-50 to-green-50/50 border border-green-200 text-green-800"
+                          : "bg-gradient-to-br from-yellow-50 to-yellow-50/50 border border-yellow-200 text-yellow-800"
+                  )}
+              >
+                <div className="flex flex-row gap-3 items-center">
+                  <div className={cn(
+                    "flex items-center justify-center rounded-full size-8",
+                    tip.type === "good" ? "bg-green-100" : "bg-yellow-100"
+                  )}>
+                    <img
+                        src={
+                          tip.type === "good"
+                              ? "/icons/check.svg"
+                              : "/icons/warning.svg"
+                        }
+                        alt="score"
+                        className="size-5"
+                    />
+                  </div>
+                  <p className="text-xl font-bold">{tip.tip}</p>
+                </div>
+                <p className="text-base leading-relaxed pl-11">{tip.explanation}</p>
               </div>
           ))}
         </div>
@@ -108,7 +122,8 @@ const CategoryContent = ({
 
 const Details = ({ feedback }: { feedback: Feedback }) => {
   return (
-      <div className="flex flex-col gap-4 w-full">
+      <div className="flex flex-col gap-4 w-full bg-white rounded-2xl shadow-md p-4">
+        <h2 className="text-2xl font-bold mb-4 px-2">Detailed Feedback</h2>
         <Accordion>
           <AccordionItem id="tone-style">
             <AccordionHeader itemId="tone-style">
