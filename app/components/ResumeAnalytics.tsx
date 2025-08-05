@@ -40,7 +40,7 @@ const ResumeAnalytics = ({ resumes }: ResumeAnalyticsProps) => {
     
     // Calculate average score
     const totalScore = resumes.reduce((sum, resume) => {
-      const score = resume.feedback?.ats?.score || 0;
+      const score = resume.feedback?.ATS?.score || 0;
       return sum + score;
     }, 0);
     const averageScore = totalScore / totalResumes;
@@ -54,7 +54,7 @@ const ResumeAnalytics = ({ resumes }: ResumeAnalyticsProps) => {
     };
 
     resumes.forEach(resume => {
-      const score = resume.feedback?.ats?.score || 0;
+      const score = resume.feedback?.ATS?.score || 0;
       if (score >= 90) scoreDistribution.excellent++;
       else if (score >= 70) scoreDistribution.good++;
       else if (score >= 50) scoreDistribution.average++;
@@ -64,7 +64,7 @@ const ResumeAnalytics = ({ resumes }: ResumeAnalyticsProps) => {
     // Extract skill gaps
     const skillGapsMap = new Map<string, number>();
     resumes.forEach(resume => {
-      const missingSkills = resume.feedback?.ats?.missingKeywords || [];
+      const missingSkills = resume.feedback?.ATS?.tips?.filter(tip => tip.type === "improve").map(tip => tip.tip) || [];
       missingSkills.forEach(skill => {
         skillGapsMap.set(skill, (skillGapsMap.get(skill) || 0) + 1);
       });
@@ -126,7 +126,7 @@ const ResumeAnalytics = ({ resumes }: ResumeAnalyticsProps) => {
         <div className="stat-card bg-[var(--color-bg-primary)] p-4 rounded-xl shadow-sm flex flex-col items-center justify-center transition-all duration-300 hover:shadow-md">
           <div className="text-sm text-[var(--color-text-secondary)] mb-1">Best Score</div>
           <div className="text-3xl font-bold text-[var(--color-text-primary)]">
-            {Math.max(...resumes.map(r => r.feedback?.ats?.score || 0))}
+            {Math.max(...resumes.map(r => r.feedback?.ATS?.score || 0))}
           </div>
           <div className="text-sm mt-1 text-green-500">Top Performance</div>
         </div>

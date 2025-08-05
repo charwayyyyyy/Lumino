@@ -107,13 +107,13 @@ const SkillSuggestions = ({ resume }: SkillSuggestionsProps) => {
     const category = skillCategories[selectedCategory];
     if (category) {
       // Filter out skills that are already in the resume
-      const existingSkills = resume.feedback?.ats?.matchedKeywords || [];
+      const existingSkills: string[] = [];
       const newSkills = category.skills.filter(skill => !existingSkills.includes(skill));
       setSuggestedSkills(newSkills);
     }
-  }, [selectedCategory, resume.feedback?.ats?.matchedKeywords]);
+  }, [selectedCategory]);
 
-  if (!resume.feedback?.ats) return null;
+  if (!resume.feedback?.ATS) return null;
 
   return (
     <div className="skill-suggestions bg-[var(--color-bg-secondary)] rounded-2xl shadow-md p-6 mb-6 transition-all duration-300">

@@ -5,6 +5,7 @@ import Summary from "~/components/Summary";
 import ATS from "~/components/ATS";
 import Details from "~/components/Details";
 import SkillSuggestions from "~/components/SkillSuggestions";
+import ResumeExport from "~/components/ResumeExport";
 
 export const meta = () => ([
     { title: 'Resumind | Review ' },
@@ -81,10 +82,11 @@ const Resume = () => {
                             <Summary feedback={feedback} />
                             <ATS score={feedback.ATS.score || 0} suggestions={feedback.ATS.tips || []} />
                             <SkillSuggestions resume={resumeData} />
+                            <ResumeExport resumeUrl={resumeUrl} resumeName={resumeData.companyName || 'resume'} />
                             <Details feedback={feedback} />
                         </div>
                     ) : (
-                        <img src="/images/resume-scan-2.gif" className="w-full" />
+<img src="/images/resume-scan-2.gif" className="w-full" alt="Resume scanning animation" />
                     )}
                 </section>
             </div>

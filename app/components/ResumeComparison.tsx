@@ -9,7 +9,7 @@ const ResumeComparison = ({ resumes }: ResumeComparisonProps) => {
   const [selectedResumes, setSelectedResumes] = useState<string[]>([]);
 
   // Filter resumes to only show those with feedback
-  const resumesWithFeedback = resumes.filter(resume => resume.feedback?.ats?.score);
+  const resumesWithFeedback = resumes.filter(resume => resume.feedback?.ATS?.score);
 
   // Toggle resume selection for comparison
   const toggleResumeSelection = (resumeId: string) => {
@@ -35,8 +35,8 @@ const ResumeComparison = ({ resumes }: ResumeComparisonProps) => {
 
   // Find common and unique missing keywords
   const compareKeywords = (resume1: Resume, resume2: Resume) => {
-    const keywords1 = resume1.feedback?.ats?.missingKeywords || [];
-    const keywords2 = resume2.feedback?.ats?.missingKeywords || [];
+    const keywords1 = resume1.feedback?.ATS?.tips?.filter(tip => tip.type === "improve").map(tip => tip.tip) || [];
+    const keywords2 = resume2.feedback?.ATS?.tips?.filter(tip => tip.type === "improve").map(tip => tip.tip) || [];
 
     const commonKeywords = keywords1.filter(keyword => keywords2.includes(keyword));
     const uniqueToResume1 = keywords1.filter(keyword => !keywords2.includes(keyword));
@@ -72,7 +72,9 @@ const ResumeComparison = ({ resumes }: ResumeComparisonProps) => {
                   onClick={() => toggleResumeSelection(resume.id)}
                 >
                   <div className="flex items-center">
-                    <input 
+                    <input
+                      aria-label={`Select ${resume.companyName || 'Unnamed'} resume for comparison`}
+                      title={`Select ${resume.companyName || 'Unnamed'} resume for comparison`}
                       type="checkbox" 
                       checked={selectedResumes.includes(resume.id)}
                       onChange={() => {}} // Handled by the div click
@@ -87,8 +89,8 @@ const ResumeComparison = ({ resumes }: ResumeComparisonProps) => {
                       </p>
                       <div className="mt-1 flex items-center">
                         <span className="text-xs font-medium mr-1">Score:</span>
-                        <span className={`text-xs font-bold ${resume.feedback?.ats?.score >= 70 ? 'text-green-600' : resume.feedback?.ats?.score >= 50 ? 'text-yellow-600' : 'text-red-600'}`}>
-                          {resume.feedback?.ats?.score}
+                        <span className={`text-xs font-bold ${resume.feedback?.ATS?.score >= 70 ? 'text-green-600' : resume.feedback?.ATS?.score >= 50 ? 'text-yellow-600' : 'text-red-600'}`}>
+                          {resume.feedback?.ATS?.score}
                         </span>
                       </div>
                     </div>
@@ -110,7 +112,7 @@ const ResumeComparison = ({ resumes }: ResumeComparisonProps) => {
                       <h4 className="font-bold text-[var(--color-text-primary)]">{selectedResumeObjects[0].companyName || 'Unnamed'}</h4>
                       <p className="text-sm text-[var(--color-text-secondary)]">{selectedResumeObjects[0].jobTitle || 'No position'}</p>
                     </div>
-                    <div className="text-2xl font-bold text-[var(--color-text-primary)]">{selectedResumeObjects[0].feedback?.ats?.score}</div>
+                    <div className="text-2xl font-bold text-[var(--color-text-primary)]">{selectedResumeObjects[0].feedback?.ATS?.score}</div>
                   </div>
                   <Link to={`/resume/${selectedResumeObjects[0].id}`} className="text-blue-600 text-sm hover:underline">View details</Link>
                 </div>
@@ -122,7 +124,7 @@ const ResumeComparison = ({ resumes }: ResumeComparisonProps) => {
                       <h4 className="font-bold text-[var(--color-text-primary)]">{selectedResumeObjects[1].companyName || 'Unnamed'}</h4>
                       <p className="text-sm text-[var(--color-text-secondary)]">{selectedResumeObjects[1].jobTitle || 'No position'}</p>
                     </div>
-                    <div className="text-2xl font-bold text-[var(--color-text-primary)]">{selectedResumeObjects[1].feedback?.ats?.score}</div>
+                    <div className="text-2xl font-bold text-[var(--color-text-primary)]">{selectedResumeObjects[1].feedback?.ATS?.score}</div>
                   </div>
                   <Link to={`/resume/${selectedResumeObjects[1].id}`} className="text-blue-600 text-sm hover:underline">View details</Link>
                 </div>
@@ -134,8 +136,8 @@ const ResumeComparison = ({ resumes }: ResumeComparisonProps) => {
                 <div className="flex items-center">
                   <div className="text-3xl font-bold mr-2 text-[var(--color-text-primary)]">
                     {calculateScoreDifference(
-                      selectedResumeObjects[0].feedback?.ats?.score || 0, 
-                      selectedResumeObjects[1].feedback?.ats?.score || 0
+                      selectedResumeObjects[0].feedback?.ATS?.score || 0,
+                      selectedResumeObjects[1].feedback?.ATS?.score || 0
                     )}
                   </div>
                   <div className="text-[var(--color-text-secondary)]">points difference</div>

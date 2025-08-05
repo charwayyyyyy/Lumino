@@ -100,7 +100,8 @@ const JobRecommendations = ({ resumes }: JobRecommendationsProps) => {
         <h2 className="text-2xl font-bold text-[var(--color-text-primary)]">Job Recommendations</h2>
         
         {resumes.length > 1 && (
-          <select 
+          <select
+            aria-label="Select resume for job recommendations"
             value={selectedResume}
             onChange={(e) => setSelectedResume(e.target.value)}
             className="bg-[var(--color-bg-primary)] border border-[var(--color-border)] text-[var(--color-text-primary)] rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
