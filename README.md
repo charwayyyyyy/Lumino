@@ -1,10 +1,7 @@
-# Lumino - Resume Analytics Dashboard
+# Lumino - Applicant Tracking system
 
-<p align="center">
-  <img src="public/favicon.png" alt="Lumino Logo" width="120" height="120">
-</p>
 
-Lumino is a modern web application that helps users optimize their resumes for Applicant Tracking Systems (ATS) and provides comprehensive analytics to improve job application success rates.
+Lumino is a an ai ATS that helps users optimize their resumes for Applicant Tracking Systems (ATS) and provides comprehensive analytics to improve job application success rates.
 
 ## Features
 
@@ -109,7 +106,3 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-## Acknowledgments
-
-- Thanks to all contributors who have helped shape Lumino
-- Special thanks to the open-source community for the amazing tools that made this project possible
